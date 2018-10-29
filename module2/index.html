@@ -29,7 +29,7 @@
        <li>Buy 10 cookies <button class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
        <li>Buy 10 cookies <button class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
      </ul> -->
-     <div ng-if="buyList.items.length === 0" class="emptyMessage">Everything is bought!</div>
+     <div ng-if="buyList.emptyBuy()" class="emptyMessage">Everything is bought!</div>
     </div>
 
     <!-- Already Bought List -->
@@ -44,7 +44,7 @@
      <!-- <ul>
        <li>Bought 10 cookies</li>
      </ul> -->
-     <div ng-if="boughtList.items.length === 0" class="emptyMessage">Nothing bought yet.</div>
+     <div ng-if="boughtList.emptyBought()" class="emptyMessage">Nothing bought yet.</div>
     </div>
   </div>
 </div>
