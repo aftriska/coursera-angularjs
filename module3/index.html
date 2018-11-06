@@ -9,6 +9,7 @@
     <script src="app.js"></script>
   </head>
 <body ng-app="NarrowItDownApp">
+
    <div class="container" ng-controller="NarrowItDownController as narrowIt">
     <h1>Narrow Down Your Chinese Menu Choice</h1>
 
@@ -19,39 +20,14 @@
       <button class="btn btn-primary" ng-click="narrowIt.getMatchedMenuItems();">Narrow It Down For Me!</button>
     </div>
 
-    <found-items found-list="narrowIt" title="{{ narrowIt.title }}""></found-items>
-    <!-- <ul>
-      <found-list ng-repeat="item in narrowIt.found"></found-list>
-    </ul> -->
+    <found-items
+      found="narrowIt.found"
+      title="{{ narrowIt.title }}"
+      on-remove="narrowIt.removeItem(index)"></found-items>
+
     <!-- found-items should be implemented as a component -->
     <!-- <found-items found-items="...." on-remove="...."></found-items> -->
   </div>
 
 </body>
 </html>
-
-
-<!-- <!DOCTYPE html>
-<html ng-app='MenuCategoriesApp'>
-  <head>
-    <meta charset="utf-8">
-    <script src="angular.min.js"></script>
-    <script src="app.js"></script>
-    <link rel="stylesheet" href="styles.css">
-    <title>Using $http Service</title>
-  </head>
-  <body>
-    <h1>Using $http Service</h1>
-
-    <div ng-controller='MenuCategoriesController as menu'>
-      <h3>List of Menu Categories</h3>
-      <ul>
-        <li ng-repeat="category in menu.categories">
-          (<a href="" ng-click="menu.logMenuItems(category.short_name);">{{ category.short_name }}</a>)
-          {{ category.name }}
-        </li>
-      </ul>
-    </div>
-
-  </body>
-</html> -->

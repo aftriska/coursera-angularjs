@@ -29,12 +29,22 @@ function FoundItemsDirective() {
   var ddo = {
     templateUrl: 'foundList.html',
     scope: {
-      list: '<foundList',
-      title: '@title'
-    }
-  }
+      found: '<',
+      title: '@',
+      onRemove: '&'
+    // }
+    },
+    controller: FoundItemsDirectiveController,
+    controllerAs: 'list',
+    bindToController: true
+  };
 
   return ddo;
+}
+
+
+function FoundItemsDirectiveController() {
+  var ctrl = this;
 }
 
 NarrowItDownController.$inject = ['MenuSearchService'];
@@ -49,11 +59,21 @@ function NarrowItDownController(MenuSearchService) {
     promise.then(function (response) {
       // console.log(response);
       menu.found = response;
-      menu.title = "Found " + response.length + " menu(s) with keyword '" + menu.searchTerm + "'.";
+      menu.length = response.length;
+      menu.title = "Found " + menu.length + " menu(s) with keyword '" + menu.searchTerm + "'.";
     })
     .catch(function (error) {
       console.log(error);
     })
+  };
+
+  menu.removeItem = function (itemIndex) {
+    // console.log("'this' is: ", this);
+    // console.log(itemIndex);
+    // MenuSearchService.removeItem(itemIndex);
+    menu.found = MenuSearchService.removeItem(itemIndex);
+    menu.length = menu.found.length;
+    menu.title = "Reduced to " + menu.length + " menu(s) with keyword '" + menu.searchTerm + "'.";
   };
 }
 
@@ -61,6 +81,7 @@ MenuSearchService.$inject = ['$http', 'ApiBasePath'];
 function MenuSearchService($http, ApiBasePath) {
 
   var service = this;
+  var matchedItems = [];
 
   service.getMatchedMenuItems = function (searchTerm) {
     var response = $http({
@@ -69,7 +90,7 @@ function MenuSearchService($http, ApiBasePath) {
     })
     .then(function(response) {
       var menuItems = response.data.menu_items;
-      var matchedItems = [];
+      // var matchedItems = [];
 
       angular.forEach(menuItems, function(index){
         var itemDescription = index.name;
@@ -77,6 +98,7 @@ function MenuSearchService($http, ApiBasePath) {
         if (itemDescription.toLowerCase().indexOf(searchTerm) !== -1) {
           // console.log(index);
           matchedItems.push(index);
+          // console.log(matchedItems);
         }
       });
 
@@ -87,6 +109,12 @@ function MenuSearchService($http, ApiBasePath) {
     });
 
     return response;
+  };
+
+  service.removeItem = function(index) {
+    matchedItems.splice(index, 1);
+    // console.log(matchedItems);
+    return matchedItems;
   };
 }
 
